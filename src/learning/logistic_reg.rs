@@ -90,6 +90,11 @@ impl<A: OptimAlgorithm<BaseLogisticRegressor>> LogisticRegressor<A> {
     pub fn parameters(&self) -> Option<&Vector<f64>> {
         self.base.parameters()
     }
+
+    /// Set the parameters in the model.
+    pub fn set_parameters(&mut self, para: Vector<f64>) {
+        self.base.set_parameters(para)
+    } 
 }
 
 impl<A> SupModel<Matrix<f64>, Vector<f64>> for LogisticRegressor<A>

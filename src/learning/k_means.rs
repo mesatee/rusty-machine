@@ -279,7 +279,7 @@ impl Initializer for Forgy {
         let mut random_choices = Vec::with_capacity(k);
         let mut rng = thread_rng();
         while random_choices.len() < k {
-            let r = rng.gen_range(0, inputs.rows());
+            let r = rng.gen_range(0..inputs.rows());
 
             if !random_choices.contains(&r) {
                 random_choices.push(r);
@@ -301,7 +301,7 @@ impl Initializer for RandomPartition {
         let mut random_assignments = (0..k).map(|i| vec![i]).collect::<Vec<Vec<usize>>>();
         let mut rng = thread_rng();
         for i in k..inputs.rows() {
-            let idx = rng.gen_range(0, k);
+            let idx = rng.gen_range(0..k);
             unsafe {
                 random_assignments.get_unchecked_mut(idx).push(i);
             }
@@ -327,7 +327,7 @@ impl Initializer for KPlusPlus {
         let mut rng = thread_rng();
 
         let mut init_centroids = Vec::with_capacity(k * inputs.cols());
-        let first_cen = rng.gen_range(0usize, inputs.rows());
+        let first_cen = rng.gen_range(0usize..inputs.rows());
 
         unsafe {
             init_centroids.extend_from_slice(inputs.row_unchecked(first_cen).raw_slice());
@@ -366,7 +366,7 @@ fn sample_discretely(unnorm_dist: &Vector<f64>) -> usize {
 
     let sum = unnorm_dist.sum();
 
-    let rand = thread_rng().gen_range(0.0f64, sum);
+    let rand = thread_rng().gen_range(0.0f64..sum);
 
     let mut tempsum = 0.0;
     for (i, p) in unnorm_dist.data().iter().enumerate() {

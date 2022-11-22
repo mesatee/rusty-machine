@@ -27,7 +27,7 @@ pub fn reservoir_sample<T: Copy>(pool: &[T], reservoir_size: usize) -> Vec<T> {
 
     while !pool_mut.is_empty() {
         ele_seen += 1;
-        let r = rng.gen_range(0, ele_seen);
+        let r = rng.gen_range(0..ele_seen);
 
         let p_0 = pool_mut[0];
         pool_mut = &pool_mut[1..];
@@ -66,7 +66,7 @@ pub fn fisher_yates<T: Copy>(arr: &[T]) -> Vec<T> {
     }
 
     for i in 0..n {
-        let j = rng.gen_range(0, i + 1);
+        let j = rng.gen_range(0..i + 1);
 
         // If j isn't the last point in the active shuffled array
         if j != i {
@@ -102,7 +102,7 @@ pub fn in_place_fisher_yates<T>(arr: &mut [T]) {
 
     for i in 0..n {
         // Swap i with a random point after it
-        let j = rng.gen_range(0, n - i);
+        let j = rng.gen_range(0..n - i);
         arr.swap(i, i + j);
     }
 }

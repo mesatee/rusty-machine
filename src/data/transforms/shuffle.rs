@@ -27,7 +27,7 @@ use learning::LearningResult;
 use linalg::{Matrix, BaseMatrix, BaseMatrixMut};
 use super::Transformer;
 
-use rand::{Rng, thread_rng, ThreadRng};
+use rand::{Rng, thread_rng, rngs::ThreadRng};
 
 /// The `Shuffler`
 ///
@@ -81,7 +81,7 @@ impl<R: Rng, T> Transformer<Matrix<T>> for Shuffler<R> {
 
         for i in 0..n {
             // Swap i with a random point after it
-            let j = self.rng.gen_range(0, n - i);
+            let j = self.rng.gen_range(0..n - i);
             inputs.swap_rows(i, i + j);
         }
         Ok(inputs)

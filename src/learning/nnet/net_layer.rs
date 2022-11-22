@@ -7,8 +7,8 @@ use learning::error::{Error, ErrorKind};
 use learning::toolkit::activ_fn::ActivationFunc;
 
 use rand::thread_rng;
-use rand::distributions::Sample;
-use rand::distributions::normal::Normal;
+use rand::distributions::Distribution;
+use rand_distr::Normal;
 
 use std::fmt::Debug;
 
@@ -141,7 +141,7 @@ impl NetLayer for Linear {
     ///
     /// weights drawn from gaussian distribution with 0 mean and variance 2/(input_size+output_size)
     fn default_params(&self) -> Vec<f64> {
-        let mut distro = Normal::new(0.0, (2.0/(self.input_size+self.output_size) as f64).sqrt());
+        let mut distro = Normal::new(0.0, (2.0/(self.input_size+self.output_size) as f64).sqrt()).unwrap();
         let mut rng = thread_rng();
 
         (0..self.input_size*self.output_size).map(|_| distro.sample(&mut rng))

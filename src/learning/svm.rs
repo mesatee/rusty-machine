@@ -152,7 +152,7 @@ impl<K: Kernel> SupModel<Matrix<f64>, Vector<f64>> for SVM<K> {
         let full_inputs = ones.hcat(inputs);
 
         for t in 0..self.optim_iters {
-            let i = rng.gen_range(0, n);
+            let i = rng.gen_range(0..n);
             let row_i = full_inputs.select_rows(&[i]);
             let sum = full_inputs.row_iter()
                 .fold(0f64, |sum, row| sum + self.ker.kernel(row_i.data(), row.raw_slice())) *
